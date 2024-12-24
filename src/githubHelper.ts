@@ -52,6 +52,14 @@ class GithubHelper {
       this.repo = context.payload?.repository?.name
       this.sha = context.sha
     }
+
+    if (context.eventName === 'status') {
+      this.sha = github.event.state?.commit?.oid
+      this.owner = github.event.state?.commit?.author.name
+      this.repo = github.event.state?.commit?.repository?.name
+      this.isPR = false
+      
+    }
   }
 
   async isPullRequest(): Promise<boolean> {
